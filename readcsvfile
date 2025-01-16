@@ -1,0 +1,19 @@
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import *
+
+# Initialize a SparkSession
+spark = SparkSession.builder \
+    .appName('SparkByExamples.com') \  # Set the application name
+    .getOrCreate()  # Create or get an existing SparkSession
+
+# Read the CSV file into a DataFrame
+df = spark.read.format("csv") \  # Specify the data format as CSV
+    .option("header", "true") \  # Indicates the first row contains column headers
+    .option("inferSchema", "true") \  # Automatically infer the schema (data types) of columns
+    .option("sep", ",") \  # Specifies the delimiter (comma in this case)
+    .load("/FileStore/tables/us_500-1.csv")  # Load the CSV file from the specified path
+
+# Display the DataFrame content and schema
+df.show()  # Displays the top 20 rows of the DataFrame
+df.printSchema()  # Displays the schema (column names and data types)
+
